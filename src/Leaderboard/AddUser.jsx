@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { differenceInYears, parseISO } from "date-fns";
 
-// Helper: Calculate age from DOB
 const calculateAge = (dob) => {
   try {
     const birthDate = parseISO(dob);
@@ -11,8 +10,7 @@ const calculateAge = (dob) => {
   }
 };
 
-function AddUser() {
-  const [people, setPeople] = useState([]);
+function AddUser({ people, setPeople }) {
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({
     name: "",
@@ -23,7 +21,6 @@ function AddUser() {
   });
   const [errors, setErrors] = useState({});
 
-  // Load from localStorage
   useEffect(() => {
     const savedPeople = localStorage.getItem("peopleList");
     if (savedPeople) {
@@ -31,7 +28,6 @@ function AddUser() {
     }
   }, []);
 
-  // Save to localStorage
   useEffect(() => {
     localStorage.setItem("peopleList", JSON.stringify(people));
   }, [people]);
@@ -82,35 +78,38 @@ function AddUser() {
   };
 
   return (
-    <div className="min-h-screen bg-white p-4 md:p-10">
-      <div className="border border-gray-300 rounded shadow-sm overflow-hidden">
-        <div className="bg-gray-100 font-semibold p-4 border-b text-lg">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white p-6">
+      <div className="max-w-6xl mx-auto bg-white shadow-xl rounded-lg overflow-hidden">
+        <div className="bg-blue-600 text-white text-xl font-semibold p-5">
           Add New Person
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full table-auto border-collapse text-sm">
+          <table className="w-full text-sm border-collapse">
             <thead>
               <tr className="bg-blue-700 text-white">
-                <th className="p-2 border">Name</th>
-                <th className="p-2 border">Date of Birth</th>
-                <th className="p-2 border">Aadhar Number</th>
-                <th className="p-2 border">Mobile Number</th>
-                <th className="p-2 border">Age</th>
-                <th className="p-2 border">Actions</th>
+                <th className="p-3 border">Name</th>
+                <th className="p-3 border">Date of Birth</th>
+                <th className="p-3 border">Aadhar Number</th>
+                <th className="p-3 border">Mobile Number</th>
+                <th className="p-3 border">Age</th>
+                <th className="p-3 border">Actions</th>
               </tr>
             </thead>
             <tbody>
               {people.map((person, index) => (
-                <tr key={index} className="text-center">
-                  <td className="border p-2">{person.name}</td>
-                  <td className="border p-2">{person.dob}</td>
-                  <td className="border p-2">{person.aadhar}</td>
-                  <td className="border p-2">{person.mobile}</td>
-                  <td className="border p-2">{person.age}</td>
-                  <td className="border p-2">
+                <tr
+                  key={index}
+                  className="text-center even:bg-gray-50 hover:bg-blue-50 transition"
+                >
+                  <td className="p-3 border">{person.name}</td>
+                  <td className="p-3 border">{person.dob}</td>
+                  <td className="p-3 border">{person.aadhar}</td>
+                  <td className="p-3 border">{person.mobile}</td>
+                  <td className="p-3 border">{person.age}</td>
+                  <td className="p-3 border">
                     <button
-                      className="text-red-600 underline hover:text-red-800 transition"
+                      className="text-red-600 hover:text-red-800 transition underline"
                       onClick={() => handleDelete(index)}
                     >
                       Delete
@@ -121,68 +120,37 @@ function AddUser() {
 
               {showForm && (
                 <tr className="bg-blue-50">
-                  <td className="border p-2">
-                    <input
-                      type="text"
-                      name="name"
-                      placeholder="Name"
-                      value={form.name}
-                      onChange={handleChange}
-                      className="w-full px-2 py-1 border rounded"
-                      required
-                    />
-                    {errors.name && <p className="text-red-600 text-xs">{errors.name}</p>}
-                  </td>
-                  <td className="border p-2">
-                    <input
-                      type="date"
-                      name="dob"
-                      value={form.dob}
-                      onChange={handleChange}
-                      className="w-full px-2 py-1 border rounded"
-                      required
-                    />
-                    {errors.dob && <p className="text-red-600 text-xs">{errors.dob}</p>}
-                  </td>
-                  <td className="border p-2">
-                    <input
-                      type="text"
-                      name="aadhar"
-                      placeholder="Aadhar number"
-                      value={form.aadhar}
-                      onChange={handleChange}
-                      className="w-full px-2 py-1 border rounded"
-                      maxLength="12"
-                      required
-                    />
-                    {errors.aadhar && <p className="text-red-600 text-xs">{errors.aadhar}</p>}
-                  </td>
-                  <td className="border p-2">
-                    <input
-                      type="text"
-                      name="mobile"
-                      placeholder="Mobile number"
-                      value={form.mobile}
-                      onChange={handleChange}
-                      className="w-full px-2 py-1 border rounded"
-                      maxLength="10"
-                      required
-                    />
-                    {errors.mobile && <p className="text-red-600 text-xs">{errors.mobile}</p>}
-                  </td>
-                  <td className="border p-2">
+                  {["name", "dob", "aadhar", "mobile"].map((field) => (
+                    <td key={field} className="p-3 border">
+                      <input
+                        type={field === "dob" ? "date" : "text"}
+                        name={field}
+                        placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                        value={form[field]}
+                        onChange={handleChange}
+                        className={`w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 ${
+                          errors[field] ? "border-red-500 ring-red-200" : "focus:ring-blue-400"
+                        }`}
+                        maxLength={field === "aadhar" ? 12 : field === "mobile" ? 10 : undefined}
+                      />
+                      {errors[field] && (
+                        <p className="text-red-600 text-xs mt-1">{errors[field]}</p>
+                      )}
+                    </td>
+                  ))}
+                  <td className="p-3 border">
                     <input
                       type="number"
                       name="age"
                       value={form.age}
                       disabled
-                      className="w-full px-2 py-1 border rounded bg-gray-100"
+                      className="w-full px-3 py-2 border rounded bg-gray-100"
                     />
                   </td>
-                  <td className="border p-2">
+                  <td className="p-3 border">
                     <button
                       onClick={handleAddPerson}
-                      className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition"
+                      className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
                     >
                       Save
                     </button>
@@ -193,13 +161,13 @@ function AddUser() {
           </table>
         </div>
 
-        <div className="text-right p-4">
+        <div className="text-right p-5">
           {!showForm && (
             <button
               onClick={() => setShowForm(true)}
-              className="bg-blue-700 text-white px-6 py-2 rounded hover:bg-blue-800 transition"
+              className="bg-gradient-to-r from-blue-600 to-blue-800 text-white px-6 py-2 rounded-full shadow hover:scale-105 transform transition duration-200"
             >
-              Add
+              + Add Person
             </button>
           )}
         </div>
