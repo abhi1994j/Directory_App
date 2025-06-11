@@ -1,12 +1,32 @@
-# React + Vite
+# Add User App (React + Tailwind )
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a responsive React application to manage a list of users. It allows adding user details such as name, date of birth, Aadhar number, mobile number, and automatically calculates the age based on the entered date of birth. It supports local storage for persistence.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
 
-## Expanding the ESLint configuration
+- 📅 Automatically calculate age from date of birth using `date-fns`
+- 💾 Data is stored persistently using `localStorage`
+- 🧠 Input validation for mobile number , aadhar number , name and birthdate
+- 📱 Fully responsive UI with Tailwind CSS
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+---
+
+## 🛠️ Tech Stack
+
+- [React](https://reactjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [date-fns](https://date-fns.org/) — for age calculation
+
+
+---
+
+## 📦 Installation
+
+```bash
+git clone https://github.com/abhi1994j/Directory_App.git
+cd add-user-app
+npm install
+npm start

@@ -21,8 +21,9 @@ function AddUser() {
     mobile: "",
     age: "",
   });
+  const [errors, setErrors] = useState({});
 
-  // Load from localStorage on mount
+  // Load from localStorage
   useEffect(() => {
     const savedPeople = localStorage.getItem("peopleList");
     if (savedPeople) {
@@ -30,10 +31,31 @@ function AddUser() {
     }
   }, []);
 
-  // Save to localStorage whenever people change
+  // Save to localStorage
   useEffect(() => {
     localStorage.setItem("peopleList", JSON.stringify(people));
   }, [people]);
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!form.name.trim()) newErrors.name = "Name is required";
+    if (!form.dob) newErrors.dob = "Date of Birth is required";
+    if (!form.aadhar) {
+      newErrors.aadhar = "Aadhar number is required";
+    } else if (!/^\d{12}$/.test(form.aadhar)) {
+      newErrors.aadhar = "Aadhar must be 12 digits";
+    }
+
+    if (!form.mobile) {
+      newErrors.mobile = "Mobile number is required";
+    } else if (!/^\d{10}$/.test(form.mobile)) {
+      newErrors.mobile = "Mobile must be 10 digits";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,11 +68,12 @@ function AddUser() {
   };
 
   const handleAddPerson = () => {
-    if (form.name && form.dob && form.aadhar && form.mobile) {
-      setPeople([...people, form]);
-      setForm({ name: "", dob: "", aadhar: "", mobile: "", age: "" });
-      setShowForm(false);
-    }
+    if (!validateForm()) return;
+
+    setPeople([...people, form]);
+    setForm({ name: "", dob: "", aadhar: "", mobile: "", age: "" });
+    setShowForm(false);
+    setErrors({});
   };
 
   const handleDelete = (index) => {
@@ -65,7 +88,6 @@ function AddUser() {
           Add New Person
         </div>
 
-        {/* Responsive table wrapper */}
         <div className="overflow-x-auto">
           <table className="w-full table-auto border-collapse text-sm">
             <thead>
@@ -107,7 +129,9 @@ function AddUser() {
                       value={form.name}
                       onChange={handleChange}
                       className="w-full px-2 py-1 border rounded"
+                      required
                     />
+                    {errors.name && <p className="text-red-600 text-xs">{errors.name}</p>}
                   </td>
                   <td className="border p-2">
                     <input
@@ -116,7 +140,9 @@ function AddUser() {
                       value={form.dob}
                       onChange={handleChange}
                       className="w-full px-2 py-1 border rounded"
+                      required
                     />
+                    {errors.dob && <p className="text-red-600 text-xs">{errors.dob}</p>}
                   </td>
                   <td className="border p-2">
                     <input
@@ -126,7 +152,10 @@ function AddUser() {
                       value={form.aadhar}
                       onChange={handleChange}
                       className="w-full px-2 py-1 border rounded"
+                      maxLength="12"
+                      required
                     />
+                    {errors.aadhar && <p className="text-red-600 text-xs">{errors.aadhar}</p>}
                   </td>
                   <td className="border p-2">
                     <input
@@ -136,11 +165,10 @@ function AddUser() {
                       value={form.mobile}
                       onChange={handleChange}
                       className="w-full px-2 py-1 border rounded"
-                      minLength='10'
-                      maxLength='10' // Enforce exactly 10 digits
-                      pattern="[0-9]{10}" // Regex to ensure only digits
+                      maxLength="10"
                       required
                     />
+                    {errors.mobile && <p className="text-red-600 text-xs">{errors.mobile}</p>}
                   </td>
                   <td className="border p-2">
                     <input
@@ -165,7 +193,6 @@ function AddUser() {
           </table>
         </div>
 
-        {/* Action buttons */}
         <div className="text-right p-4">
           {!showForm && (
             <button
