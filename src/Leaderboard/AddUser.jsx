@@ -126,7 +126,7 @@ function AddUser({ people, setPeople }) {
                       <input
                         type={field === "dob" ? "date" : "text"}
                         name={field}
-                        placeholder=
+                        placeholder={field}
                         value={form[field]}
                         onChange={handleChange}
                         className={`w-full px-3 py-2 border rounded focus:outline-none focus:ring-2`}
