@@ -20,9 +20,7 @@ function AddUser({ people, setPeople }) {
     mobile: "",
     age: "",
   });
-  const [errors, setErrors] = useState({});
-
-  
+  const [errors, setErrors] = useState({}); 
 
   useEffect(() => {
     localStorage.setItem("peopleList", JSON.stringify(people));

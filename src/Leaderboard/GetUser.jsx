@@ -11,14 +11,8 @@ function GetUser({ people }) {
   };
 
   const filterData = (value) => {
-    const trimmed = value.trim();
-    if (!trimmed) {
-      setFilteredData([]);
-      return;
-    }
-
     const filtered = people.filter((person) =>
-      person.aadhar.includes(trimmed)
+      person.aadhar.includes(value.trim())
     );
     setFilteredData(filtered);
   };
