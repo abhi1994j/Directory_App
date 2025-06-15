@@ -32,3 +32,5 @@ npm install
 npm start
 
 ${ errors[field] ? "border-red-500 ring-red-200" : "focus:ring-blue-400"}
+
+{field.charAt(0).toUpperCase() + field.slice(1)}

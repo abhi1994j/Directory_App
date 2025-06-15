@@ -41,13 +41,13 @@ function AddUser({ people, setPeople }) {
     if (!form.aadhar) {
       newErrors.aadhar = "Aadhar number is required";
     } else if (!aadharRegex.test(form.aadhar)) {
-      newErrors.aadhar = "Aadhar must be 12 digits";
+      newErrors.aadhar = "Aadhar must be 12 digits numbers";
     }
 
     if (!form.mobile) {
       newErrors.mobile = "Mobile number is required";
     } else if (!/^\d{10}$/.test(form.mobile)) {
-      newErrors.mobile = "Mobile must be 10 digits";
+      newErrors.mobile = "Mobile must be 10 digits numbers";
     }
 
     setErrors(newErrors);
@@ -126,7 +126,7 @@ function AddUser({ people, setPeople }) {
                       <input
                         type={field === "dob" ? "date" : "text"}
                         name={field}
-                        placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                        placeholder=
                         value={form[field]}
                         onChange={handleChange}
                         className={`w-full px-3 py-2 border rounded focus:outline-none focus:ring-2`}
