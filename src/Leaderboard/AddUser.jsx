@@ -22,12 +22,7 @@ function AddUser({ people, setPeople }) {
   });
   const [errors, setErrors] = useState({});
 
-  useEffect(() => {
-    const savedPeople = localStorage.getItem("peopleList");
-    if (savedPeople) {
-      setPeople(JSON.parse(savedPeople));
-    }
-  }, []);
+  
 
   useEffect(() => {
     localStorage.setItem("peopleList", JSON.stringify(people));
