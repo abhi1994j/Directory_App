@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { differenceInYears, parseISO } from "date-fns";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 const calculateAge = (dob) => {
   try {
@@ -34,12 +35,12 @@ function AddUser({ people, setPeople }) {
 
   const validateForm = () => {
     const newErrors = {};
-
+    const aadharRegex =/^\d{12}$/;
     if (!form.name.trim()) newErrors.name = "Name is required";
     if (!form.dob) newErrors.dob = "Date of Birth is required";
     if (!form.aadhar) {
       newErrors.aadhar = "Aadhar number is required";
-    } else if (!/^\d{12}$/.test(form.aadhar)) {
+    } else if (!aadharRegex.test(form.aadhar)) {
       newErrors.aadhar = "Aadhar must be 12 digits";
     }
 
@@ -112,7 +113,7 @@ function AddUser({ people, setPeople }) {
                       className="text-red-600 hover:text-red-800 transition underline"
                       onClick={() => handleDelete(index)}
                     >
-                      Delete
+                     <FaRegTrashAlt/>
                     </button>
                   </td>
                 </tr>
@@ -128,10 +129,7 @@ function AddUser({ people, setPeople }) {
                         placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
                         value={form[field]}
                         onChange={handleChange}
-                        className={`w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 ${
-                          errors[field] ? "border-red-500 ring-red-200" : "focus:ring-blue-400"
-                        }`}
-                        maxLength={field === "aadhar" ? 12 : field === "mobile" ? 10 : undefined}
+                        className={`w-full px-3 py-2 border rounded focus:outline-none focus:ring-2`}
                       />
                       {errors[field] && (
                         <p className="text-red-600 text-xs mt-1">{errors[field]}</p>

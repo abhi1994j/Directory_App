@@ -30,3 +30,5 @@ git clone https://github.com/abhi1994j/Directory_App.git
 cd add-user-app
 npm install
 npm start
+
+${ errors[field] ? "border-red-500 ring-red-200" : "focus:ring-blue-400"}
